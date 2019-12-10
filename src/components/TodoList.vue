@@ -1,16 +1,25 @@
 <template>
   <form id="app" @submit.prevent="createTask">
-    <label class="label" for="task">Nueva tarea: </label>
-    <input type="text" v-model="newTask" id="task">
-    <input type="submit" value="Crear tarea">
-  </form>  
+    <label class="label" for="task">Nueva tarea:</label>
+    <input type="text" v-model="newTask" id="task" />
+    <input type="submit" value="Crear tarea" />
+    <ul>
+      <li 
+        v-for="(task, i) in tasks" 
+        :key="'task' + i"
+        :class="{completed: task.completed}"
+      >
+        {{ task.text }}
+      </li>
+    </ul>
+  </form>
 </template>
 
 <script>
 export default {
   data: () => ({
-      newTask: "",
-      tasks : []
+    newTask: "",
+    tasks: []
   }),
   methods: {
     createTask() {
@@ -22,9 +31,12 @@ export default {
       /* eslint-enable no-console */
     }
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+.completed {
+  text-decoration: line-through;
+  color: grey;
+}
 </style>
