@@ -5,15 +5,19 @@
       <input class="input" type="text" v-model="newTask" id="task" />
       <input class="button" type="submit" value="Crear tarea" />
     </form>
+    <br>
+    <button v-if="tasks.length > 0 && allDone" @click="completeAllTask">ALL DONE</button>
+    <button v-if="tasks.length > 0 && !allDone" @click="completeAllTask">ALL TODO</button>
     <ul class="list">
       <li 
         class="task"
         v-for="(task, i) in tasks" 
         :key="'task' + i"
         :class="{completed: task.completed}"
-        @click="completeTask(task.text)"
       >
         {{ task.text }}
+        <button @click="completeTask(task.text)">DONE</button>
+        <button @click="deleteTask(i)">X</button>
       </li>
     </ul>
   </div>
@@ -23,7 +27,8 @@
 export default {
   data: () => ({
     newTask: "",
-    tasks: []
+    tasks: [],
+    allDone: true
   }),
   methods: {
     createTask() {
@@ -39,6 +44,13 @@ export default {
         .filter(task => task.text === taskText)
         .map(task => task.completed = !task.completed);
       // Si no fuera reactivo hay que usar "Vue.$set(array, indexOfItem, newValue)"
+    },
+    completeAllTask() {
+      this.tasks.map(task => task.completed = this.allDone);
+      this.allDone = !this.allDone;
+    },
+    deleteTask(index) {
+      this.tasks.splice(index,1);
     }
   }
 };
