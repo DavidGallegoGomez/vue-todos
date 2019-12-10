@@ -1,10 +1,13 @@
 <template>
-  <form id="app" @submit.prevent="createTask">
-    <label class="label" for="task">Nueva tarea:</label>
-    <input type="text" v-model="newTask" id="task" />
-    <input type="submit" value="Crear tarea" />
-    <ul>
+  <div class="task-list">
+    <form class="form" id="app" @submit.prevent="createTask">
+      <label class="label" for="task">Nueva tarea:</label>
+      <input class="input" type="text" v-model="newTask" id="task" />
+      <input class="button" type="submit" value="Crear tarea" />
+    </form>
+    <ul class="list">
       <li 
+        class="task"
         v-for="(task, i) in tasks" 
         :key="'task' + i"
         :class="{completed: task.completed}"
@@ -13,7 +16,7 @@
         {{ task.text }}
       </li>
     </ul>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -35,15 +38,51 @@ export default {
       this.tasks
         .filter(task => task.text === taskText)
         .map(task => task.completed = !task.completed);
-      // task.completed = !task.completed
+      // Si no fuera reactivo hay que usar "Vue.$set(array, indexOfItem, newValue)"
     }
   }
 };
 </script>
 
 <style scoped>
+.task-list {
+  width: 800px;
+  max-width: 100%;
+  margin: 0px auto;
+}
+.form {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0px 10px 22px -1px rgba(0,0,0,0.25);
+  margin-top: 10px;
+}
+.label {
+  display: block;
+  margin-bottom: 10px;
+}
+.input {
+  height: 35px;
+}
+.button {
+  margin-left: 20px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+  background-color: #2ecc71;
+  color: #ecf0f1;
+  cursor: pointer
+}
+.list {
+  margin-top: 40px;
+}
+.task {
+  cursor: pointer;
+  margin: 10px 0;
+}
 .completed {
   text-decoration: line-through;
-  color: grey;
+  color: lightgrey;
 }
 </style>
