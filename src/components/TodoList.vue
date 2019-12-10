@@ -8,6 +8,7 @@
         v-for="(task, i) in tasks" 
         :key="'task' + i"
         :class="{completed: task.completed}"
+        @click="completeTask(task.text)"
       >
         {{ task.text }}
       </li>
@@ -29,6 +30,12 @@ export default {
       /* eslint-disable no-console */
       console.log(this.tasks);
       /* eslint-enable no-console */
+    },
+    completeTask(taskText) {
+      this.tasks
+        .filter(task => task.text === taskText)
+        .map(task => task.completed = !task.completed);
+      // task.completed = !task.completed
     }
   }
 };
